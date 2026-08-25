@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>Estudo dos 256 Odùs</title>
+    <style>
+        :root {
+            --bg-color: #1a1613;
+            --card-bg: #28211c;
+            --text-color: #f7f3ef;
+            --accent-color: #d4a373;
+            --accent-light: #44372e;
+            --tag-meji: #588157;
+            --tag-omo: #b5838d;
+        }
+
+        * {
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        html { height: 100%; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: max(12px, env(safe-area-inset-top)) max(12px, env(safe-area-inset-right)) max(12px, env(safe-area-inset-bottom)) max(12px, env(safe-area-inset-left));
+            min-height: 100vh;
+            min-height: 100dvh;
+            min-height: -webkit-fill-available;
+            overflow-x: hidden;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .container {
+            width: min(100%, 720px);
+            min-height: calc(100dvh - 24px);
+            min-height: calc(100vh - 24px);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            margin: 0 auto;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 5px;
+        }
+
+        h1 {
+            font-size: 1.25rem;
+            color: var(--accent-color);
+            margin: 0 0 2px 0;
+        }
+
+        .counter {
+            font-size: 0.85rem;
+            color: #a09286;
+            margin-bottom: 5px;
+        }
+
+        .card {
+            touch-action: pan-y;
+            width: 100%;
+            min-height: 0;
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 15px;
+            border: 1px solid var(--accent-light);
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-around;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.5);
+        }
+
+        .opon-container {
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            gap: clamp(18px, 8vw, 48px);
+            background: rgba(0, 0, 0, 0.25);
+            padding: clamp(14px, 4vw, 24px) clamp(24px, 10vw, 60px);
+            border-radius: 15px;
+            border: 1px dashed var(--accent-light);
+            min-width: min(200px, 80vw);
+            max-width: 100%;
+        }
+
+        .opon-leg {
+            font-family: 'Courier New', Courier, monospace;
+            font-size: clamp(2rem, 10vw, 3.2rem);
+            font-weight: bold;
+            line-height: 1.3;
+            color: var(--accent-color);
+            text-align: center;
+            -webkit-user-select: none;
+            user-select: none;
+            -webkit-touch-callout: none;
+        }
+
+        .info-section {
+            width: 100%;
+            text-align: center;
+            min-height: 150px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hidden {
+            visibility: hidden;
+            opacity: 0;
+        }
+
+        .revealed {
+            visibility: visible;
+            opacity: 1;
+            transition: opacity 0.2s ease-in;
+        }
+
+        .type-tag {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            font-weight: bold;
+            padding: 4px 10px;
+            border-radius: 20px;
+            margin-bottom: 8px;
+            color: #fff;
+        }
+
+        .tag-meji-style { background-color: var(--tag-meji); }
+        .tag-omo-style { background-color: var(--tag-omo); }
+
+        .odu-name {
+            font-size: clamp(1.45rem, 6vw, 2.2rem);
+            font-weight: 800;
+            margin: 0 0 5px 0;
+            color: #fff;
+            line-height: 1.2;
+        }
+
+        .odu-combination {
+            font-size: 0.85rem;
+            color: #d4a373;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .odu-meaning {
+            font-size: 0.9rem;
+            color: #cbc3bb;
+            line-height: 1.4;
+            max-width: 90%;
+        }
+
+        .controls {
+            display: flex;
+            gap: 10px;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        button {
+            min-height: 52px;
+            -webkit-appearance: none;
+            appearance: none;
+            -webkit-user-select: none;
+            user-select: none;
+            background-color: var(--accent-color);
+            color: #1e1a17;
+            border: none;
+            padding: 15px;
+            font-size: 1rem;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: bold;
+            flex: 1;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        }
+
+        button:active {
+            transform: scale(0.98);
+            filter: brightness(0.9);
+        }
+
+        button.secondary {
+            background-color: #3d332c;
+            color: var(--text-color);
+        }
+
+        /* Ajustes para telas pequenas e celulares */
+        @media (max-width: 600px) {
+            body {
+                padding-left: max(8px, env(safe-area-inset-left));
+                padding-right: max(8px, env(safe-area-inset-right));
+                padding-top: max(8px, env(safe-area-inset-top));
+                padding-bottom: max(8px, env(safe-area-inset-bottom));
+            }
+
+            .container {
+                width: 100%;
+                min-height: calc(100dvh - 16px);
+                min-height: calc(100vh - 16px);
+            }
+
+            header { margin-bottom: 4px; }
+            h1 { font-size: 1.1rem; }
+            .counter { font-size: .78rem; }
+
+            .card {
+                border-radius: 16px;
+                padding: 10px;
+                margin: 4px 0;
+            }
+
+            .opon-container {
+                gap: 12vw;
+                padding: 14px 8vw;
+            }
+
+            .info-section {
+                min-height: 125px;
+                padding: 0 4px;
+            }
+
+            .odu-meaning {
+                max-width: 100%;
+                font-size: .86rem;
+            }
+
+            .controls {
+                gap: 8px;
+                margin-top: 8px;
+                padding-bottom: 2px;
+            }
+
+            button {
+                padding: 13px 10px;
+                min-height: 50px;
+                font-size: .95rem;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .opon-container { gap: 9vw; padding-left: 5vw; padding-right: 5vw; }
+            .opon-leg { font-size: 1.8rem; }
+            .odu-name { font-size: 1.35rem; }
+            .controls { flex-direction: column; }
+        }
+
+        @media (min-width: 601px) {
+            .card { min-height: 500px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <h1>Estudo dos 256 Odùs</h1>
+        <div id="counterDisplay" class="counter">Odùs vistos: 0 / 256</div>
+    </header>
+
+    <div class="card" id="mainCard">
+        <div class="opon-container">
+            <div id="leftLeg" class="opon-leg">I<br>I<br>I<br>I</div>
+            <div id="rightLeg" class="opon-leg">I<br>I<br>I<br>I</div>
+        </div>
+        
+        <div id="infoSection" class="info-section hidden">
+            <div id="typeTag" class="type-tag"></div>
+            <div id="oduName" class="odu-name"></div>
+            <div id="oduCombination" class="odu-combination"></div>
+            <div id="oduMeaning" class="odu-meaning"></div>
+        </div>
+    </div>
+
+    <div class="controls">
+        <button type="button" class="secondary" id="revealButton">Revelar</button>
+        <button type="button" id="nextButton">Próximo</button>
+    </div>
+</div>
+
+<script>
+    const baseOdus = [
+        { name: "Ogbe", marks: [1, 1, 1, 1], meaning: "Luz total, começos, iniciativa e movimento para frente." },
+        { name: "Oyeku", marks: [2, 2, 2, 2], meaning: "Fim de ciclos, ancestralidade, noite e bloqueio protetor." },
+        { name: "Iwori", marks: [2, 1, 1, 2], meaning: "Fogo, paixão, transformações profundas e intuição espiritual." },
+        { name: "Odi", marks: [1, 2, 2, 1], meaning: "Muralha, sigilo absoluto, estabilidade material e a Sociedade Ògbóni." },
+        { name: "Irosun", marks: [1, 1, 2, 2], meaning: "Cuidado com acidentes, sangue nas veias, resistência e alertas." },
+        { name: "Owonrin", marks: [2, 2, 1, 1], meaning: "Mudanças abruptas, o vento, viradas de destino e trocas financeiras." },
+        { name: "Obara", marks: [1, 2, 2, 2], meaning: "Prosperidade inesperada, poder da palavra, fim da miséria e orgulho." },
+        { name: "Okanran", marks: [2, 2, 2, 1], meaning: "Inversão de posições, quebra de velhas estruturas, rebeldia e luta." },
+        { name: "Ogunda", marks: [1, 1, 1, 2], meaning: "Cortes necessários, justiça severa, ação focada, tecnologia e Ogum." },
+        { name: "Osa", marks: [2, 1, 1, 1], meaning: "O vento repentino, viagem, o império e a sabedoria das mães ancestrais." },
+        { name: "Ika", marks: [2, 1, 2, 2], meaning: "Retenção de forças, autodefesa contra feitiços, limites e cautela." },
+        { name: "Oturupon", marks: [2, 2, 1, 2], meaning: "Saúde física, gestação, resistência biológica e doenças superadas." },
+        { name: "Otua", marks: [1, 2, 1, 1], meaning: "Paz espiritual, união coletiva, sabedoria pura e inteligência clara." },
+        { name: "Irete", marks: [1, 1, 2, 1], meaning: "Obstinação, força física para trabalho pesado e ligação direta com o solo." },
+        { name: "Ose", marks: [1, 2, 1, 2], meaning: "Doçura, riqueza imediata, fertilidade e o feitiço do encanto natural." },
+        { name: "Ofun", marks: [2, 1, 2, 1], meaning: "O grande mistério, sabedoria dos velhos tempos, pureza e clareza branca." }
+    ];
+
+    let seenOdus = new Set();
+
+    function formatLeg(marksArray) {
+        return marksArray.map(m => m === 1 ? "I" : "II").join("<br>");
+    }
+
+    function nextOdu() {
+        if (seenOdus.size === 256) {
+            alert("Parabéns! Você estudou todas as 256 combinações. O contador será reiniciado.");
+            seenOdus.clear();
+        }
+
+        let rIdx, lIdx, key;
+        do {
+            rIdx = Math.floor(Math.random() * 16);
+            lIdx = Math.floor(Math.random() * 16);
+            key = `${rIdx}-${lIdx}`;
+        } while (seenOdus.has(key));
+
+        seenOdus.add(key);
+        document.getElementById("counterDisplay").innerText = `Odùs vistos: ${seenOdus.size} / 256`;
+
+        const rightOdu = baseOdus[rIdx];
+        const leftOdu = baseOdus[lIdx];
+
+        document.getElementById("rightLeg").innerHTML = formatLeg(rightOdu.marks);
+        document.getElementById("leftLeg").innerHTML = formatLeg(leftOdu.marks);
+
+        const info = document.getElementById("infoSection");
+        const tag = document.getElementById("typeTag");
+        const nameEl = document.getElementById("oduName");
+        const combEl = document.getElementById("oduCombination");
+        const meanEl = document.getElementById("oduMeaning");
+
+        if (rIdx === lIdx) {
+            tag.innerText = "Ojú Odù (Meji)";
+            tag.className = "type-tag tag-meji-style";
+            nameEl.innerText = `${rightOdu.name} Meji`;
+            combEl.innerText = `Ordem Tradicional: ${rIdx + 1}º Maior`;
+            meanEl.innerText = rightOdu.meaning;
+        } else {
+            tag.innerText = "Ọmọ Odù (Combinado)";
+            tag.className = "type-tag tag-omo-style";
+            nameEl.innerText = `${rightOdu.name} ${leftOdu.name}`;
+            combEl.innerText = `${rightOdu.name} ${leftOdu.name}`;
+            meanEl.innerText = `Fusão energética: ${rightOdu.name} é o prefixo do Omo Odù, seguido por ${leftOdu.name}.`;
+        }
+
+        info.classList.remove("revealed");
+        info.classList.add("hidden");
+    }
+
+    function revealInfo() {
+        const info = document.getElementById("infoSection");
+        info.classList.remove("hidden");
+        info.classList.add("revealed");
+    }
+
+    let touchstartX = 0;
+    let touchendX = 0;
+    const cardElement = document.getElementById('mainCard');
+    const revealButton = document.getElementById('revealButton');
+    const nextButton = document.getElementById('nextButton');
+
+    revealButton.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        revealInfo();
+    });
+
+    nextButton.addEventListener('click', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        nextOdu();
+    });
+
+    cardElement.addEventListener('click', function() {
+        revealInfo();
+    });
+
+    cardElement.addEventListener('touchstart', function(e) {
+        if (e.changedTouches && e.changedTouches.length) {
+            touchstartX = e.changedTouches[0].screenX;
+        }
+    }, {passive: true});
+
+    cardElement.addEventListener('touchend', function(e) {
+        if (e.changedTouches && e.changedTouches.length) {
+            touchendX = e.changedTouches[0].screenX;
+            if (touchstartX - touchendX > 50) {
+                nextOdu();
+            }
+        }
+    }, {passive: true});
+
+    document.addEventListener('DOMContentLoaded', function() {
+        nextOdu();
+    });
+</script>
+</body>
+</html>
