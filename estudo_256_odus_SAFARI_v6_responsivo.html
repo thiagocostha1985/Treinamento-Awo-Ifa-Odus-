@@ -303,7 +303,7 @@
         { name: "Osa", marks: [2, 1, 1, 1], meaning: "O vento repentino, viagem, o império e a sabedoria das mães ancestrais." },
         { name: "Ika", marks: [2, 1, 2, 2], meaning: "Retenção de forças, autodefesa contra feitiços, limites e cautela." },
         { name: "Oturupon", marks: [2, 2, 1, 2], meaning: "Saúde física, gestação, resistência biológica e doenças superadas." },
-        { name: "Otua", marks: [1, 2, 1, 1], meaning: "Paz espiritual, união coletiva, sabedoria pura e inteligência clara." },
+        { name: "Otura", marks: [1, 2, 1, 1], meaning: "Paz espiritual, união coletiva, sabedoria pura e inteligência clara." },
         { name: "Irete", marks: [1, 1, 2, 1], meaning: "Obstinação, força física para trabalho pesado e ligação direta com o solo." },
         { name: "Ose", marks: [1, 2, 1, 2], meaning: "Doçura, riqueza imediata, fertilidade e o feitiço do encanto natural." },
         { name: "Ofun", marks: [2, 1, 2, 1], meaning: "O grande mistério, sabedoria dos velhos tempos, pureza e clareza branca." }
@@ -350,11 +350,11 @@
             combEl.innerText = `Ordem Tradicional: ${rIdx + 1}º Maior`;
             meanEl.innerText = rightOdu.meaning;
         } else {
-            tag.innerText = "Ọmọ Odù (Combinado)";
+            tag.innerText = "Odù";
             tag.className = "type-tag tag-omo-style";
             nameEl.innerText = `${rightOdu.name} ${leftOdu.name}`;
             combEl.innerText = `${rightOdu.name} ${leftOdu.name}`;
-            meanEl.innerText = `Fusão energética: ${rightOdu.name} é o prefixo do Omo Odù, seguido por ${leftOdu.name}.`;
+            //meanEl.innerText = `Fusão energética: ${rightOdu.name} é o prefixo do Omo Odù, seguido por ${leftOdu.name}.`;
         }
 
         info.classList.remove("revealed");
