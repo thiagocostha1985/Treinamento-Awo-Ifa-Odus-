@@ -305,7 +305,7 @@ body{
 </style></head><body><main class="container">
 
  <div class="top-navigation">
-        <button id="backHomeStudy" class="home-back-button" type="button" aria-label="Voltar para a página anterior ou página inicial">
+        <button id="homeButton" class="home-back-button" type="button" aria-label="Voltar para a página anterior ou página inicial">
             ← Voltar / Início
         </button>
     </div>
@@ -363,16 +363,24 @@ fillOptions();show(ODUS[0]);
 </script><script>/* manter uma cópia do texto completo para conferência */</script>
 <script>
 (function(){
-    const btn = document.getElementById("backHomeConsult");
-    if (!btn) return;
-    btn.addEventListener("click", function(){
-        const sameSite = document.referrer && new URL(document.referrer, window.location.href).origin === window.location.origin;
-        if (sameSite && window.history.length > 1) {
-            window.history.back();
-        } else {
-            window.location.href = "index.html";
-        }
-    });
+  const btn=document.getElementById('homeButton');
+  if(!btn)return;
+  btn.addEventListener('click',function(e){
+    e.preventDefault();
+    // O botão sempre pode voltar ao portal do projeto.
+    // Se houver histórico dentro do mesmo projeto, volta uma página;
+    // caso contrário, abre explicitamente o index.html.
+    try{
+      const ref=document.referrer ? new URL(document.referrer, window.location.href) : null;
+      const sameOrigin=ref && ref.origin===window.location.origin;
+      const sameProject=sameOrigin && ref.pathname.indexOf('/Treinamento-Awo-Ifa-Odus-')!==-1;
+      if(sameProject && window.history.length>1){
+        window.history.back();
+        return;
+      }
+    }catch(err){}
+    window.location.href='index.html';
+  });
 })();
 </script>
 
