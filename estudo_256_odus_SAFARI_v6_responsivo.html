@@ -323,6 +323,12 @@
 <body>
 
 <div class="container">
+
+    <div class="top-navigation">
+        <button id="homeButton" class="home-button" type="button" aria-label="Voltar para a página inicial">
+            ← Voltar para Início
+        </button>
+    </div>
     <header>
         <h1>Estudo dos 256 Odùs</h1>
         <div id="counterDisplay" class="counter">Odùs vistos: 0 / 256</div>
@@ -437,6 +443,15 @@
     const cardElement = document.getElementById('mainCard');
     const revealButton = document.getElementById('revealButton');
     const nextButton = document.getElementById('nextButton');
+
+    const homeButton = document.getElementById("homeButton");
+    if (homeButton) {
+        homeButton.addEventListener("click", function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            window.location.href = "index.html";
+        });
+    }
 
     revealButton.addEventListener('click', function(e) {
         e.preventDefault();
