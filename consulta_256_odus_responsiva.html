@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="pt-BR">
 <head>
@@ -24,9 +23,14 @@ small{color:var(--muted)}
 </head>
 <body>
 <main class="app">
-<header class="top"><div class="pill">📚 Resumo alimentado pelo arquivo anexado</div>
+<header class="top">
+<div style="display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap">
+<div>
 <h1>Consulta & Estudo dos 256 Odùs</h1>
 <p>Base estruturada a partir do código e dos materiais fornecidos. O conteúdo de fonte é preservado e não é inventado.</p>
+</div>
+<button id="homeBtn" class="btn" type="button" title="Voltar à página inicial">⌂ Voltar ao início</button>
+</div>
 </header>
 
 <section class="toolbar">
@@ -150,6 +154,9 @@ function find(v){let n=norm(v);return ODUS.find(o=>norm(name(o))===n)||ODUS.find
 $('search').addEventListener('change',()=>{let o=find($('search').value);if(o)show(o)});
 $('search').addEventListener('keydown',e=>{if(e.key==='Enter'){let o=find($('search').value);if(o)show(o)}});
 $('clear').onclick=()=>{$('search').value='';$('search').focus()};
+$('homeBtn').onclick=()=>{
+ window.location.href='https://thiagocostha1985.github.io/Treinamento-Awo-Ifa-Odus-/';
+};
 $('prev').onclick=()=>show(ODUS[(idx-1+256)%256]);
 $('next').onclick=()=>show(ODUS[(idx+1)%256]);
 $('random').onclick=()=>show(ODUS[Math.floor(Math.random()*256)]);
