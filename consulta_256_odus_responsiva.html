@@ -366,7 +366,7 @@
 
 <script>
     const baseOdus = [
-        { name: "Ogbe", marks: [1, 1, 1, 1], meaning: "Luz total, começos, iniciativa e movimento para frente." },
+        { name: "Ejiogbe", marks: [1, 1, 1, 1], meaning: "Luz total, começos, iniciativa e movimento para frente." },
         { name: "Oyeku", marks: [2, 2, 2, 2], meaning: "Fim de ciclos, ancestralidade, noite e bloqueio protetor." },
         { name: "Iwori", marks: [2, 1, 1, 2], meaning: "Fogo, paixão, transformações profundas e intuição espiritual." },
         { name: "Odi", marks: [1, 2, 2, 1], meaning: "Muralha, sigilo absoluto, estabilidade material e a Sociedade Ògbóni." },
@@ -445,11 +445,11 @@
             combEl.innerText = `Ordem Tradicional: ${rIdx + 1}º Maior`;
             meanEl.innerText = rightOdu.meaning;
         } else {
-            tag.innerText = "Ọmọ Odù (Combinado)";
+            tag.innerText = "Ọmọ Odù";
             tag.className = "type-tag tag-omo-style";
             nameEl.innerText = `${rightOdu.name} ${leftOdu.name}`;
             combEl.innerText = `${rightOdu.name} ${leftOdu.name}`;
-            meanEl.innerText = `Fusão energética: ${rightOdu.name} é o prefixo do Omo Odù, seguido por ${leftOdu.name}.`;
+            //meanEl.innerText = `Fusão energética: ${rightOdu.name} é o prefixo do Omo Odù, seguido por ${leftOdu.name}.`;
         }
 
         info.classList.remove("revealed");
