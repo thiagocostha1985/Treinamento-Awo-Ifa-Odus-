@@ -367,7 +367,15 @@ function esc(s){return String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&l
 function marks(a){return a.map(x=>x===1?'I':'II').join('<br>');}
 function norm(s){return String(s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').replace(/[^a-z0-9 ]/g,' ').replace(/\s+/g,' ').trim();}
 function renderText(el,text,empty='Não identificado no arquivo enviado.'){el.innerHTML=text?esc(text):`<span class="empty">${empty}</span>`;}
-function displayName(o){return `${o.right} ${o.left}`.trim();}
+function displayName(o){
+  // Se direita e esquerda forem o mesmo Odù, trata-se de um Odù Méjì.
+  // Ex.: Ogbè + Ogbè → Ogbè Méjì (e não Ogbè Ogbè).
+  if(o.meji || norm(o.right)===norm(o.left)){
+    return `${o.right} Méjì`.trim();
+  }
+  // Nos Ọmọ Odù, o Odù da direita é o principal/prefixo.
+  return `${o.right} ${o.left}`.trim();
+}
 function fillOptions(){ODUS.forEach(o=>{const op=document.createElement('option');op.value=displayName(o);datalist.appendChild(op);});}
 function findOdu(value){
  const n=norm(value);
@@ -394,7 +402,7 @@ function show(o){
  input.value=fullName;
 }
 input.addEventListener('change',()=>show(findOdu(input.value)));
-input.addEventListener('input',()=>{const o=findOdu(input.value); if(o && norm(o.name)===norm(input.value))show(o);});
+input.addEventListener('input',()=>{const o=findOdu(input.value); if(o && norm(displayName(o))===norm(input.value))show(o);});
 document.getElementById('clearBtn').addEventListener('click',()=>{input.value='';input.focus();});
 fillOptions();show(ODUS[0]);
 </script><script>/* manter uma cópia do texto completo para conferência */</script>
